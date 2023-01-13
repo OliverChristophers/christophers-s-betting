@@ -6,9 +6,11 @@
 
 #add model
 
+import subprocess
+
 
 import undetected_chromedriver as uc
-import time
+
 from bs4 import BeautifulSoup
 import requests
 import os
@@ -17,7 +19,7 @@ import json
 import xlsxwriter
 from bs4 import BeautifulSoup as bs
 import os
-
+import time
 
  
     
@@ -27,7 +29,7 @@ from selenium.webdriver.common.by import By
 options = uc.ChromeOptions()
 user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36'
 options.add_argument('user-agent={0}'.format(user_agent))
-options.add_argument('--headless')
+#options.add_argument('--headless')
 driver = uc.Chrome(options=options)
 
 
@@ -71,13 +73,14 @@ def getLive():
     start_time = driver.find_elements(By.CLASS_NAME, 'StartTimeText_s1cr9nsi')
     for i in start_time:
         currentDateAndTime = datetime.now()
-        currentTime = currentDateAndTime.strftime("%H:%M")
+        currentTime = '20:31'
         #currentDateAndTime.strftime("%H:%M")
         new = i.text.split(':')
         newnew = currentTime.split(':')
         
         
         check = 60 - int(newnew[-1])
+
 
 
         if (int(new[0]) + 1) - int(newnew[0]) == 1:
@@ -98,5 +101,13 @@ def getLive():
                     new_list.append(i.get_attribute('href'))
         
     return new_list
-
 print(getLive())
+
+for i in getLive():
+    file = open('run.bat' 'w')
+    o = 0
+    for x in file:
+        o += 1
+        print(x)
+
+    subprocess.call([r'C:\Users\olive\Desktop\oddschecker\run.bat'])

@@ -8,7 +8,7 @@ import json
 import xlsxwriter
 from bs4 import BeautifulSoup as bs
 import os
-from betting import *
+
 
  
     
@@ -16,8 +16,81 @@ from betting import *
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 options = uc.ChromeOptions()
-#options.add_argument('--headless')
+user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36'
+options.add_argument('user-agent={0}'.format(user_agent))
+options.add_argument('--headless')
 driver = uc.Chrome(options=options)
+
+
+def getLive():
+    driver.get('https://www.oddschecker.com/football/accumulator')
+
+    time.sleep(2)
+
+
+
+
+    try:
+        button1 = driver.find_element(By.XPATH, '/html/body/div[1]/div/section/h2/span[2]')
+        driver.execute_script("arguments[0].click();", button1)
+    except:
+        pass
+    try:
+        btn = driver.find_element(By.XPATH, '/html/body/main/div/div[5]/div/div/button[1]')
+        driver.execute_script("arguments[0].click();", btn)
+    except:
+        pass
+    try:
+        btn1 = driver.find_element(By.XPATH, '/html/body/main/div/div[6]/div/div[2]/div[2]')
+        driver.execute_script("arguments[0].click();", btn1)
+    except:
+        pass
+
+
+
+    element = driver.find_elements(By.CLASS_NAME, 'arrow_a1f1ukjc')
+
+    for state in element:
+        xpanded = state.get_attribute("aria-expanded")
+
+        if xpanded == 'false':
+            driver.execute_script("arguments[0].click();", state) 
+        
+    time.sleep(3)
+    new_list = []
+
+    start_time = driver.find_elements(By.CLASS_NAME, 'StartTimeText_s1cr9nsi')
+    for i in start_time:
+        currentDateAndTime = datetime.now()
+        currentTime = currentDateAndTime.strftime("%H:%M")
+        #currentDateAndTime.strftime("%H:%M")
+        new = i.text.split(':')
+        newnew = currentTime.split(':')
+        
+        
+        check = 60 - int(newnew[-1])
+        time = 30
+
+
+        if (int(new[0]) + 1) - int(newnew[0]) == 1:
+            if int(new[-1]) == 0 and int(newnew[-1]) >= 41:
+                new_list.append(i.get_attribute('href'))
+            
+        elif check <= 5:
+            if int(new[-1]) == 15:
+                new_list.append(i.get_attribute('href'))
+
+
+        if (int(new[0]) + 1) - int(newnew[0]) == 0:
+            if int(new[-1]) == 0:
+                pass
+
+            elif int(newnew[-1]) < int(new[-1]):
+                if int(new[-1]) - int(newnew[-1]) <= time:
+                    new_list.append(i.get_attribute('href'))
+        
+    return new_list
+
 
 
 
@@ -170,17 +243,3 @@ while True:
     taken = end - start
     if taken < 60:
         time.sleep(60 - taken)
-
-
-
-
-
-
-['bet365', 'skybet','paddypower', 'william hill', '888sport', 'betfair', 'betvictor', 'coral', 'unibet', 'spreadEX', 'betfred', 'sbk', 'boylesport', '10bet', 'betuk', 'sporting index', 'livescore bet', 'quinnbet', 'betway', 'ladbrokes', 'midnite', 'parimatch', 'vbet']
-['B3', 'SK', 'PP', 'WH', 'EE', 'FB', 'VC', 'CE', 'UN', 'SX', 'FR', 'RK', 'BY', 'OE', 'DP', 'SI', 'LS', 'QN', 'WA', 'LD', 'N4', 'RM', 'VT']
-
-
-
-'''bestOddsStyles_b1n2p0rl oddShortening_o1ini8o6 betTooltip_b1ufcx63 OddsCellDesktop_obvpjra OddsCellBtn_o5t2ais
-bestOddsStyles_b1n2p0rl oddDrifting_o14s2hvj betTooltip_b1ufcx63 OddsCellDesktop_obvpjra OddsCellBtn_o5t2ais
-bestOddsStyles_b1n2p0rl oddStable_o1ggra3k betTooltip_b1ufcx63 OddsCellDesktop_obvpjra OddsCellBtn_o5t2ais'''

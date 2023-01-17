@@ -6,7 +6,7 @@ def stringlist_to_list(list_as_string):
     list_as_list = json.loads(list_as_string)
     return list_as_list
 
-gamename = 'tottenham-v-portsmouth'
+gamename = 'blackpool-v-nottingham-forest'
 
 letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R'] 
 ovun = ['-', '+']

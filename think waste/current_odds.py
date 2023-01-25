@@ -8,7 +8,8 @@ import json
 import xlsxwriter
 from bs4 import BeautifulSoup as bs
 import os
-from betting import *
+import sys
+
 
  
     
@@ -160,12 +161,12 @@ def getCurr(url):
         f.write(f'\n')
 
 
-list_games = getLive()
+list_games = ['https://www.oddschecker.com/football/france/coupe-de-france/brest-v-lens/winner', 'https://www.oddschecker.com/football/italy/serie-a/juventus-v-atalanta/winner', 'https://www.oddschecker.com/football/spain/la-liga-primera/athletic-bilbao-v-real-madrid/winner', 'https://www.oddschecker.com/football/belgium/jupiler-pro-league/sint-truidense-v-gent/winner']
 
 while True:
     
     start = time.time()
-    getCurr(list_games[0])
+    getCurr(sys.argv[1])
     end = time.time()
     taken = end - start
     if taken < 60:

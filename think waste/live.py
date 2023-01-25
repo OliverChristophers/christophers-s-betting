@@ -238,7 +238,7 @@ list_games = getLive()
 while True:
     
     start = time.time()
-    getCurr(list_games[0])
+    
     end = time.time()
     taken = end - start
     if taken < 60:
